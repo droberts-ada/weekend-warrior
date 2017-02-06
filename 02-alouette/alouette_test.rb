@@ -7,14 +7,12 @@ Minitest::Reporters.use!
 
 class AlouetteTest < Minitest::Test
   # Load the canonical lyrics from disk
-  let(:expected_lyrics) do
-    File.read(File.dirname(__FILE__) + '/alouette_lyrics.txt').strip
-  end
+  @@canonical_lyrics = File.read(File.dirname(__FILE__) + '/alouette_lyrics.txt').strip
 
   #
   # lines_for_verse
   #
-  def returns_an_array_of_strings
+  def test_lines_for_verse_returns_an_array_of_strings
     lines = Alouette.lines_for_verse(3)
 
     assert_kind_of Array, lines
@@ -24,13 +22,13 @@ class AlouetteTest < Minitest::Test
     end
   end
 
-  def generates_the_correct_line_for_the_first_verse
-    skip
+  def test_lines_for_verse_generates_the_correct_line_for_the_first_verse
+
     assert_equal ['Et la tête!'], Alouette.lines_for_verse(0)
   end
 
-  def generates_the_correct_lines_for_the_third_verse
-    skip
+  def test_lines_for_verse_generates_the_correct_lines_for_the_third_verse
+
     expected_lines = [
       "Et les yeux!",
       "Et le bec!",
@@ -42,13 +40,13 @@ class AlouetteTest < Minitest::Test
   #
   # verse
   #
-  def returns_a_string
-    skip
+  def test_verse_returns_a_string
+
     assert_kind_of String, Alouette.verse(3)
   end
 
-  def first_two_lines_begin_with_Je_te_plumerai
-    skip
+  def test_first_two_lines_of_verse_begin_with_Je_te_plumerai
+
     lines = Alouette.verse(3).split("\n")
 
     # If there aren't at least 2 lines, don't continue
@@ -59,8 +57,8 @@ class AlouetteTest < Minitest::Test
     end
   end
 
-  def last_three_lines
-    skip
+  def test_last_three_lines_of_verse_are_as_expected
+
     lines = Alouette.verse(3).split("\n")
 
     # If there aren't at least 3 lines, don't continue
@@ -71,8 +69,8 @@ class AlouetteTest < Minitest::Test
     assert_equal "A-a-a-ah", lines[-1]
   end
 
-  def middle_lines_begin_with_Et_and_end_with_bang
-    skip
+  def test_verse_middle_lines_begin_with_Et_and_end_with_bang
+
     lines = Alouette.verse(3).split("\n")
 
     # If there aren't at least 6 lines, don't continue
@@ -87,8 +85,8 @@ class AlouetteTest < Minitest::Test
     end
   end
 
-  def generates_the_third_verse
-    skip
+  def test_generates_the_third_verse
+
     expected_verse = <<-__END_VERSE__
 Je te plumerai les yeux.
 Je te plumerai les yeux.
@@ -109,21 +107,21 @@ __END_VERSE__
   #
   # sing
   #
-  def returns_a_string
-    skip
+  def test_sing_returns_a_string
+
     assert_kind_of String, Alouette.sing
   end
 
-  def begins_and_ends_with_the_refrain
-    skip
+  def test_sing_begins_and_ends_with_the_refrain
+
     song = Alouette.sing
     refrain = "Alouette, gentille alouette,\nAlouette, je te plumerai."
     assert song.start_with?(refrain + "\n\n"), "Song didn't begin with the refrain"
     assert song.end_with?("\n\n" + refrain), "Song didn't end with the refrain"
   end
 
-  def generates_the_full_lyrics
-    skip
-    assert_equal expected_lyrics, Alouette.sing
+  def test_sing_generates_the_full_lyrics
+
+    assert_equal @@canonical_lyrics, Alouette.sing
   end
 end
